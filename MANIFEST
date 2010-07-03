@@ -1,0 +1,13 @@
+LICENSE
+MANIFEST
+Makefile.PL
+lib/Dpchrist/Is.pm
+t/0_compile_modules.t
+t/1_Dpchrist-Is.t
+t/2_is_filehandle.t
+t/2_is_filename.t
+t/2_is_wholenumber.t
+t/2_isa.t
+t/9_pod.t
+t/9_prereq.t
+META.yml                                 Module meta-data (added by MakeMaker)
