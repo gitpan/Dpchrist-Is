@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dpchrist-Is
-version:            1.017
+version:            1.023
 abstract:           various type tests
 author:
     - David Christensen <dpchrist@holgerdanske.com>

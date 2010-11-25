@@ -1,12 +1,11 @@
 #######################################################################
-# $Id: Is.pm,v 1.17 2010-02-27 21:10:47 dpchrist Exp $
+# $Id: Is.pm,v 1.23 2010-11-25 01:25:06 dpchrist Exp $
 #######################################################################
 # package:
 #----------------------------------------------------------------------
 
 package Dpchrist::Is;
 
-use 5.010000;
 use strict;
 use warnings;
 
@@ -15,8 +14,13 @@ require Exporter;
 our @ISA	= qw( Exporter );
 
 our %EXPORT_TAGS = ( 'all' => [ qw(
+    is_arrayref
     is_filehandle
     is_filename
+    is_hashref
+    is_nonempty_string
+    is_rxref
+    is_string
     is_wholenumber
     isa_class
     isa_object
@@ -29,7 +33,7 @@ our @EXPORT_OK = (
 
 our @EXPORT	= qw();
 
-our $VERSION	= sprintf "%d.%03d", q$Revision: 1.17 $ =~ /(\d+)/g;
+our $VERSION	= sprintf "%d.%03d", q$Revision: 1.23 $ =~ /(\d+)/g;
 
 #######################################################################
 # uses:
@@ -46,15 +50,86 @@ Dpchrist::Is - various type tests
 
 =head1 DESCRIPTION
 
+This documentation describes module revision $Revision: 1.23 $.
+
 =head2 SUBROUTINES
 
 =cut
 
-#######################################################################
+#----------------------------------------------------------------------
+
+=head3 _isa($$)
+
+    if (_isa EXPR1,EXPR2) {
+	# do something...
+    }
+
+Returns true (1) if EXPR1 is an object or class of type EXPR2,
+or derived from EXPR2.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub _isa($$)
+{
+    my ($x, $c) = @_;
+
+    my $r = eval {
+	defined $x
+	&& (!ref($x) || blessed($x))
+	&& defined $c
+	&& !ref($c)
+	&& $x->isa($c)
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
+
+=head3 is_arrayref($)
+
+    if (is_arrayref EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is an array reference,
+including an empty array.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub is_arrayref($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& ref($s) eq 'ARRAY'
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
 
 =head3 is_filehandle($)
 
-    is_filehandle EXPR
+    if (is_filehandle EXPR) {
+	# do something...
+    }
 
 Returns true (1) if EXPR is a file handle.
 Otherwise, returns the undefined value.
@@ -62,8 +137,6 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
-
-#----------------------------------------------------------------------
 
 sub is_filehandle($)
 {
@@ -83,11 +156,13 @@ sub is_filehandle($)
     return $r;
 }
 
-#######################################################################
+#----------------------------------------------------------------------
 
 =head3 is_filename($)
 
-    is_filename EXPR
+    if (is_filename EXPR) {
+	# do something...
+    }
 
 Returns true (1) if EXPR is the name of an existing file
 or if Perl can open a file for writing on that name
@@ -97,8 +172,6 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
-
-#----------------------------------------------------------------------
 
 sub is_filename($)
 {
@@ -123,11 +196,141 @@ sub is_filename($)
     return $r;
 }
 
-#######################################################################
+#----------------------------------------------------------------------
+
+=head3 is_hashref($)
+
+    if (is_hashref EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is a hash reference,
+including an empty hash.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub is_hashref($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& ref($s) eq 'HASH'
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
+
+=head3 is_nonempty_string($)
+
+    if (is_nonempty_string EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is a non-empty string.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub is_nonempty_string($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& !ref($s)
+	&& length($s)
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
+
+=head3 is_rxref($)
+
+    if (is_rxref EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is a reference to a regular expression,
+including an empty regular expression.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub is_rxref($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& ref($s) eq 'Regexp'
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
+
+=head3 is_string($)
+
+    if (is_string EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is a string,
+including an empty string.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
+sub is_string($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& !ref($s)
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#----------------------------------------------------------------------
 
 =head3 is_wholenumber($)
 
-    is_wholenumber EXPR
+    if (is_wholenumber EXPR) {
+	# do something...
+    }
 
 Returns true (1) if EXPR is a whole number.
 Otherwise, returns the undefined value.
@@ -135,8 +338,6 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
-
-#----------------------------------------------------------------------
 
 sub is_wholenumber($)
 {
@@ -157,11 +358,13 @@ sub is_wholenumber($)
     return $r;
 }
 
-#######################################################################
+#----------------------------------------------------------------------
 
-=head3 isa_class
+=head3 isa_class($$)
 
-    isa_class EXPR1,EXPR2
+    if (isa_class EXPR1,EXPR2) {
+	# do something...
+    }
 
 Returns true (1) if EXPR1 is a class of type EXPR2,
 or derived from EXPR2.
@@ -170,8 +373,6 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
-
-#----------------------------------------------------------------------
 
 sub isa_class($$)
 {
@@ -192,11 +393,13 @@ sub isa_class($$)
     return $r;
 }
 
-#######################################################################
+#----------------------------------------------------------------------
 
-=head3 isa_object
+=head3 isa_object($$)
 
-    isa_object EXPR1,EXPR2
+    if (isa_object EXPR1,EXPR2) {
+	# do something...
+    }
 
 Returns true (1) if EXPR1 is an object of type EXPR2,
 or derived from EXPR2.
@@ -205,8 +408,6 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
-
-#----------------------------------------------------------------------
 
 sub isa_object($$)
 {
@@ -229,41 +430,6 @@ sub isa_object($$)
 }
 
 #######################################################################
-
-=head3 _isa
-
-    _isa EXPR1,EXPR2
-
-Returns true (1) if EXPR1 is an object or class of type EXPR2,
-or derived from EXPR2.
-Otherwise, returns the undefined value.
-
-This subroutine should not generate exceptions.
-
-=cut
-
-#----------------------------------------------------------------------
-
-sub _isa($$)
-{
-    my ($x, $c) = @_;
-
-    my $r = eval {
-	defined $x
-	&& (!ref($x) || blessed($x))
-	&& defined $c
-	&& !ref($c)
-	&& $x->isa($c)
-	? 1
-	: undef
-    };
-
-    ### ignore $@
-
-    return $r;
-}
-
-#######################################################################
 # end of code:
 #----------------------------------------------------------------------
 
@@ -273,17 +439,40 @@ __END__
 
 #######################################################################
 
+=head2 EXPORTS
+
+This module exports nothing by default.
+
+All subroutines except those starting with an underscore '_'
+may be exported by using the ':all' tag:
+
+    use Dpchrist::Is	qw( :all );
+
+Specific subroutines may be exported on request.
+See 'perldoc Exporter' for details.
+
+
 =head1 INSTALLATION
+
+Old school:
 
     perl Makefile.PL
     make
     make test
     make install
 
+Minimal:
 
-=head1 DEPENDENCIES
+    cpan Dpchrist::Is
 
-    Dpchrist::Module
+Complete:
+
+    cpan Bundle::Dpchrist
+
+
+=head2 DEPENDENCIES
+
+    See Makefile.PL in source distribution root directory.
 
 
 =head1 SEE ALSO
