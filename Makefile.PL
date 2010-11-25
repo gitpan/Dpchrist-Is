@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Makefile.PL,v 1.8 2010-11-25 00:36:05 dpchrist Exp $
+# $Id: Makefile.PL,v 1.9 2010-11-25 18:10:50 dpchrist Exp $
 #
 # Copyright 2010 by David Paul Christensen dpchrist@holgerdanske.com
 #
@@ -25,6 +25,7 @@ use Dpchrist::Module::MakefilePL (
     -pod2html	 	=> [qw(
 	lib/Dpchrist/Is.pm
     )],
+    -readme		=> 'lib/Dpchrist/Is.pm',
     -release		=> $ENV{RELEASE_ROOT},
 );
 
@@ -32,12 +33,12 @@ WriteMakefile(
     NAME		=> 'Dpchrist::Is',
     VERSION_FROM	=> 'lib/Dpchrist/Is.pm',
     PREREQ_PM		=> {
-	'Dpchrist::Module'	=> 1.016,
+	'Dpchrist::Module'	=> 1.021,
 	'feature'		=> 0,
     },
     ABSTRACT_FROM	=> 'lib/Dpchrist/Is.pm',
     AUTHOR		=>
-	'David Christensen <dpchrist@holgerdanske.com>',
+	'David Paul Christensen <dpchrist@holgerdanske.com>',
     clean		=> {
 	FILES => q( *~tmp */*~tmp Dpchrist* ),
     },
