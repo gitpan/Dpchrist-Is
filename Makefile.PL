@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Makefile.PL,v 1.9 2010-11-25 18:10:50 dpchrist Exp $
+# $Id: Makefile.PL,v 1.10 2010-11-26 20:13:46 dpchrist Exp $
 #
 # Copyright 2010 by David Paul Christensen dpchrist@holgerdanske.com
 #
@@ -22,9 +22,7 @@ use ExtUtils::MakeMaker;
 
 use Dpchrist::Module::MakefilePL (
     -mcpani		=> $ENV{CPAN_AUTHORID},
-    -pod2html	 	=> [qw(
-	lib/Dpchrist/Is.pm
-    )],
+    -pod2html	 	=> 'lib/Dpchrist/Is.pm',
     -readme		=> 'lib/Dpchrist/Is.pm',
     -release		=> $ENV{RELEASE_ROOT},
 );
@@ -33,7 +31,7 @@ WriteMakefile(
     NAME		=> 'Dpchrist::Is',
     VERSION_FROM	=> 'lib/Dpchrist/Is.pm',
     PREREQ_PM		=> {
-	'Dpchrist::Module'	=> 1.021,
+	'Dpchrist::Module'	=> 1.023,
 	'feature'		=> 0,
     },
     ABSTRACT_FROM	=> 'lib/Dpchrist/Is.pm',
