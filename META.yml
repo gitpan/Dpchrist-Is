@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dpchrist-Is
-version:            1.026
+version:            1.027
 abstract:           various type tests
 author:
     - David Paul Christensen <dpchrist@holgerdanske.com>
@@ -11,7 +11,7 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Dpchrist::Module:  1.025
+    Dpchrist::Module:  1.026
     feature:           0
     Getopt::Long:      0
     Pod::Html:         0
