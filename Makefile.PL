@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Makefile.PL,v 1.10 2010-11-26 20:13:46 dpchrist Exp $
+# $Id: Makefile.PL,v 1.11 2010-11-27 03:37:58 dpchrist Exp $
 #
 # Copyright 2010 by David Paul Christensen dpchrist@holgerdanske.com
 #
@@ -18,21 +18,30 @@
 # USA.
 #######################################################################
 
-use ExtUtils::MakeMaker;
+eval {
+    require Dpchrist::Module::MakefilePL;
 
-use Dpchrist::Module::MakefilePL (
-    -mcpani		=> $ENV{CPAN_AUTHORID},
-    -pod2html	 	=> 'lib/Dpchrist/Is.pm',
-    -readme		=> 'lib/Dpchrist/Is.pm',
-    -release		=> $ENV{RELEASE_ROOT},
-);
+    import Dpchrist::Module::MakefilePL (
+	-mcpani		=> $ENV{CPAN_AUTHORID},
+	-pod2html 	=> 'lib/Dpchrist/Is.pm',
+	-readme		=> 'lib/Dpchrist/Is.pm',
+	-release	=> $ENV{RELEASE_ROOT},
+    );
+};
+warn $@ if $@;
+
+use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME		=> 'Dpchrist::Is',
     VERSION_FROM	=> 'lib/Dpchrist/Is.pm',
     PREREQ_PM		=> {
-	'Dpchrist::Module'	=> 1.023,
-	'feature'		=> 0,
+	Dpchrist::Module	=> 1.025,
+	Getopt::Long		=> 0,
+	Pod::Html		=> 0,
+	Pod::Text		=> 0,
+	Pod::Usage		=> 0,
+	feature			=> 0,
     },
     ABSTRACT_FROM	=> 'lib/Dpchrist/Is.pm',
     AUTHOR		=>

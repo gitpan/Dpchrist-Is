@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Is.pm,v 1.25 2010-11-26 20:13:46 dpchrist Exp $
+# $Id: Is.pm,v 1.26 2010-11-27 03:37:58 dpchrist Exp $
 #######################################################################
 # package:
 #----------------------------------------------------------------------
@@ -33,7 +33,7 @@ our @EXPORT_OK = (
 
 our @EXPORT	= qw();
 
-our $VERSION	= sprintf "%d.%03d", q$Revision: 1.25 $ =~ /(\d+)/g;
+our $VERSION	= sprintf "%d.%03d", q$Revision: 1.26 $ =~ /(\d+)/g;
 
 #######################################################################
 # uses:
@@ -50,7 +50,7 @@ Dpchrist::Is - various type tests
 
 =head1 DESCRIPTION
 
-This documentation describes module revision $Revision: 1.25 $.
+This documentation describes module revision $Revision: 1.26 $.
 
 
 This is alpha test level software
@@ -461,23 +461,30 @@ See 'perldoc Exporter' for details.
 
 Old school:
 
-    perl Makefile.PL
-    make
-    make test
-    make install
+    $ perl Makefile.PL
+    $ make
+    $ make test
+    $ make install
 
 Minimal:
 
-    cpan Dpchrist::Is
+    $ cpan Dpchrist::Is
 
 Complete:
 
-    cpan Bundle::Dpchrist
+    $ cpan Bundle::Dpchrist
+
+The following warning may be safely ignored:
+
+    Can't locate Dpchrist/Module/MakefilePL.pm in @INC (@INC contains: /
+    etc/perl /usr/local/lib/perl/5.10.0 /usr/local/share/perl/5.10.0 /us
+    r/lib/perl5 /usr/share/perl5 /usr/lib/perl/5.10 /usr/share/perl/5.10
+     /usr/local/lib/site_perl .) at Makefile.PL line 22.
 
 
-=head2 DEPENDENCIES
+=head2 PREREQUISITES
 
-    See Makefile.PL in source distribution root directory.
+See Makefile.PL in the source distribution root directory.
 
 
 =head1 SEE ALSO
