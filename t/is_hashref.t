@@ -1,14 +1,13 @@
-# $Id: 2_is_string.t,v 1.3 2010-11-25 01:25:06 dpchrist Exp $
+# $Id: is_hashref.t,v 1.1 2010-11-25 00:36:05 dpchrist Exp $
 
 use Test::More tests => 8;
-
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( is_string );
+use Dpchrist::Is	qw( is_hashref );
 
 $Data::Dumper::Sortkeys = 1;
 
@@ -17,7 +16,7 @@ $| = 1;
 my $r;
 
 $r = eval {	# sneak around prototype compile check
-    my $rc = \&is_string;
+    my $rc = \&is_hashref;
     &$rc;
 };
 ok(                                                             #     1
@@ -29,7 +28,7 @@ ok(                                                             #     1
 );
 
 $r = eval {
-    is_string undef;
+    is_hashref undef;
 };
 ok(                                                             #     2
     !$@
@@ -40,72 +39,68 @@ ok(                                                             #     2
 );
 
 $r = eval {
-    is_string '';
+    is_hashref '';
 };
 ok(                                                             #     3
     !$@
-    && defined $r
-    && $r,
-    'call on empty string should return true'
+    && !defined $r,
+    'call on empty string should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_string 'foo';
+    is_hashref 'foo';
 };
 ok(                                                             #     4
     !$@
-    && defined $r
-    && $r,
-    "call on non-empty string should return true"
+    && !defined $r,
+    'call on non-empty string should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_string {};
+    is_hashref 0;
 };
 ok(                                                             #     5
     !$@
     && !defined $r,
-    'call on reference should return the undefined value'
+    'call on zero should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_string -1;
+    is_hashref 1;
 };
 ok(                                                             #     6
     !$@
-    && defined $r
-    && $r,
-    'call on negative integer should return true'
+    && !defined $r,
+    'call on one should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_string 0;
+    is_hashref {};
 };
 ok(                                                             #     7
     !$@
     && defined $r
     && $r,
-    'call on zero should return true'
+    'call on hash reference should return true'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_string 1;
+    is_hashref [];
 };
 ok(                                                             #     8
     !$@
-    && defined $r
-    && $r,
-    'call on one should return true'
+    && !defined $r,
+    'call on hash reference should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );

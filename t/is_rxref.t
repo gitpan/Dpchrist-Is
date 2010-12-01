@@ -1,22 +1,22 @@
-# $Id: 2_is_arrayref.t,v 1.1 2010-11-24 16:57:43 dpchrist Exp $
+# $Id: is_rxref.t,v 1.1 2010-11-25 00:51:07 dpchrist Exp $
 
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( is_arrayref );
+use Dpchrist::Is		qw( is_rxref );
 
-$Data::Dumper::Sortkeys = 1;
+local $|			= 1;
+$Data::Dumper::Sortkeys		= 1;
 
-$| = 1;
 
 my $r;
 
 $r = eval {	# sneak around prototype compile check
-    my $rc = \&is_arrayref;
+    my $rc = \&is_rxref;
     &$rc;
 };
 ok(                                                             #     1
@@ -28,7 +28,7 @@ ok(                                                             #     1
 );
 
 $r = eval {
-    is_arrayref undef;
+    is_rxref undef;
 };
 ok(                                                             #     2
     !$@
@@ -39,7 +39,7 @@ ok(                                                             #     2
 );
 
 $r = eval {
-    is_arrayref '';
+    is_rxref '';
 };
 ok(                                                             #     3
     !$@
@@ -50,7 +50,7 @@ ok(                                                             #     3
 );
 
 $r = eval {
-    is_arrayref 'foo';
+    is_rxref 'foo';
 };
 ok(                                                             #     4
     !$@
@@ -61,7 +61,7 @@ ok(                                                             #     4
 );
 
 $r = eval {
-    is_arrayref 0;
+    is_rxref 0;
 };
 ok(                                                             #     5
     !$@
@@ -72,7 +72,7 @@ ok(                                                             #     5
 );
 
 $r = eval {
-    is_arrayref 1;
+    is_rxref 1;
 };
 ok(                                                             #     6
     !$@
@@ -83,24 +83,34 @@ ok(                                                             #     6
 );
 
 $r = eval {
-    is_arrayref [];
+    is_rxref [];
 };
 ok(                                                             #     7
     !$@
-    && defined $r
-    && $r,
-    'call on array reference should return true'
+    && !defined $r,
+    'call on array reference should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_arrayref {};
+    is_rxref {};
 };
 ok(                                                             #     8
     !$@
-    && !defined $r,
+    && !defined($r),
     'call on hash reference should return the undefined value'
+) or confess join(' ', __FILE__, __LINE__,
+    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+);
+
+$r = eval {
+    is_rxref qr//;
+};
+ok(                                                             #     9
+    !$@
+    && $r,
+    'call on reference to regular expression should return true'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );

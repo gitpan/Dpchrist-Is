@@ -1,4 +1,4 @@
-# $Id: 2_is_filehandle.t,v 1.3 2009-11-26 22:11:48 dpchrist Exp $
+# $Id: is_filehandle.t,v 1.3 2009-11-26 22:11:48 dpchrist Exp $
 
 use Test::More tests => 14;
 

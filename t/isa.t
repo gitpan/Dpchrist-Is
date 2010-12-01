@@ -1,4 +1,4 @@
-# $Id: 2_isa.t,v 1.6 2009-11-26 22:11:48 dpchrist Exp $
+# $Id: isa.t,v 1.6 2009-11-26 22:11:48 dpchrist Exp $
 
 use Test::More tests => 10;
 

@@ -1,0 +1,13 @@
+test-compile-all_pm_files_ok.t
+Dpchrist-Is.t
+is_arrayref.t
+is_filehandle.t
+is_filename.t
+is_hashref.t
+is_nonempty_string.t
+is_rxref.t
+is_string.t
+is_wholenumber.t
+isa.t
+test-pod-all_pod_files_ok.t
+test-prereq-prereq_ok.t

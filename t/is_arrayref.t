@@ -1,122 +1,106 @@
-# $Id: 2_is_wholenumber.t,v 1.3 2009-11-26 22:11:48 dpchrist Exp $
+# $Id: is_arrayref.t,v 1.1 2010-11-24 16:57:43 dpchrist Exp $
 
-use Test::More tests => 10;
-
+use Test::More tests => 8;
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all );
+use Dpchrist::Is	qw( is_arrayref );
 
 $Data::Dumper::Sortkeys = 1;
 
 $| = 1;
 
-my $f;
 my $r;
-my $rc = \&is_wholenumber;
 
-$r = eval {
+$r = eval {	# sneak around prototype compile check
+    my $rc = \&is_arrayref;
     &$rc;
 };
 ok(                                                             #     1
-    !defined $r,
+    !$@
+    && !defined $r,
     'call without arguments should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber undef;
+    is_arrayref undef;
 };
 ok(                                                             #     2
-    !defined $r,
+    !$@
+    && !defined $r,
     'call on undefined value should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber '';
+    is_arrayref '';
 };
 ok(                                                             #     3
-    !defined $r,
+    !$@
+    && !defined $r,
     'call on empty string should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber 'foo';
+    is_arrayref 'foo';
 };
 ok(                                                             #     4
-    !defined $r,
-    "call on non-numeric string should return the undefined value"
+    !$@
+    && !defined $r,
+    'call on non-empty string should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber {};
+    is_arrayref 0;
 };
 ok(                                                             #     5
-    !defined $r,
-    'call on reference should return the undefined value'
+    !$@
+    && !defined $r,
+    'call on zero should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber -1;
+    is_arrayref 1;
 };
 ok(                                                             #     6
-     !defined $r,
-    'call on negative integer should return the undefined value'
+    !$@
+    && !defined $r,
+    'call on one should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber 3.141592654;
+    is_arrayref [];
 };
 ok(                                                             #     7
-    !defined $r,
-    'call on floating point number should return the undefined value'
+    !$@
+    && defined $r
+    && $r,
+    'call on array reference should return true'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_wholenumber 0;
+    is_arrayref {};
 };
 ok(                                                             #     8
-    defined $r
-    && $r == 1,
-    'call on zero should return true'
-) or confess join(' ', __FILE__, __LINE__,
-    Data::Dumper->Dump([$r, $@], [qw(r @)]),
-);
-
-$r = eval {
-    is_wholenumber 1;
-};
-ok(                                                             #     9
-    defined $r
-    && $r == 1,
-    'call on one should return true'
-) or confess join(' ', __FILE__, __LINE__,
-    Data::Dumper->Dump([$r, $@], [qw(r @)]),
-);
-
-$r = eval {
-    is_wholenumber 10;
-};
-ok(                                                             #    10
-    defined $r
-    && $r == 1,
-    'call on ten should return true'
+    !$@
+    && !defined $r,
+    'call on hash reference should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );

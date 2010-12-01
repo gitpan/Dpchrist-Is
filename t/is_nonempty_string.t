@@ -1,92 +1,120 @@
-# $Id: 2_is_filename.t,v 1.5 2009-11-26 22:11:48 dpchrist Exp $
+# $Id: is_nonempty_string.t,v 1.1 2010-11-25 01:25:06 dpchrist Exp $
 
-use Test::More tests => 7;
+use Test::More tests => 9;
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all );
+use Dpchrist::Is		qw( is_nonempty_string );
 
-$Data::Dumper::Sortkeys = 1;
 
-$| = 1;
+$|				= 1;
+$Data::Dumper::Sortkeys		= 1;
 
-my $f;
 my $r;
-my $rc = \&is_filename;
 
-$r = eval {
+$r = eval {	# sneak around prototype compile check
+    my $rc = \&is_nonempty_string;
     &$rc;
 };
 ok(                                                             #     1
-    !defined $r,
+    !$@
+    && !defined $r,
     'call without arguments should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_filename undef;
+    is_nonempty_string undef;
 };
 ok(                                                             #     2
-    !defined $r,
+    !$@
+    && !defined $r,
     'call on undefined value should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_filename '';
+    is_nonempty_string '';
 };
 ok(                                                             #     3
-    !defined $r,
+    !$@
+    && !defined $r,
     'call on empty string should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_filename {};
+    is_nonempty_string [];
 };
 ok(                                                             #     4
-    !defined $r,
-    'call on reference should return the undefined value'
+    !$@
+    && !defined $r,
+    'call on empty array reference should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_filename 'no/such/file';
+    is_nonempty_string {};
 };
 ok(                                                             #     5
-    !defined $r,
-    "call on 'no/such/file' should return undefined value"
+    !$@
+    && !defined $r,
+    'call on empty hash reference should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
 $r = eval {
-    is_filename __FILE__;
+    is_nonempty_string qr//;
 };
 ok(                                                             #     6
-     defined $r
-     && $r == 1,
-    'call on test script filename should return true'
+    !$@
+    && !defined $r,
+    'call on empty regular expression reference ' .
+    'should return the undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
-$f = join '~', __FILE__, __LINE__, 'tmp';
-
 $r = eval {
-    is_filename $f;
+    is_nonempty_string 0;
 };
 ok(                                                             #     7
-     defined $r
-     && $r == 1,
-    "call on '$f' should return true"
+    !$@
+    && defined $r
+    && $r,
+    'call on zero should return true'
+) or confess join(' ', __FILE__, __LINE__,
+    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+);
+
+$r = eval {
+    is_nonempty_string 1;
+};
+ok(                                                             #     8
+    !$@
+    && defined $r
+    && $r,
+    'call on one should return true'
+) or confess join(' ', __FILE__, __LINE__,
+    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+);
+
+$r = eval {
+    is_nonempty_string 'foo';
+};
+ok(                                                             #     9
+    !$@
+    && defined $r
+    && $r,
+    "call on non-empty string should return true"
 ) or confess join(' ', __FILE__, __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
