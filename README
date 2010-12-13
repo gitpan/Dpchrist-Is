@@ -2,7 +2,7 @@ NAME
     Dpchrist::Is - various type tests
 
 DESCRIPTION
-    This documentation describes module revision $Revision: 1.29 $.
+    This documentation describes module revision $Revision: 1.30 $.
 
     This is alpha test level software and may change or disappear at any
     time.
@@ -20,6 +20,16 @@ DESCRIPTION
 
    is_arrayref($)
         if (is_arrayref EXPR) {
+            # do something...
+        }
+
+    Returns true (1) if EXPR is an array reference, including an empty
+    array. Otherwise, returns the undefined value.
+
+    This subroutine should not generate exceptions.
+
+   is_coderef($)
+        if (is_coderef EXPR) {
             # do something...
         }
 
@@ -69,8 +79,8 @@ DESCRIPTION
 
     This subroutine should not generate exceptions.
 
-   is_rxref($)
-        if (is_rxref EXPR) {
+   is_regexpref($)
+        if (is_regexpref EXPR) {
             # do something...
         }
 
@@ -95,8 +105,8 @@ DESCRIPTION
             # do something...
         }
 
-    Returns true (1) if EXPR is a whole number. Otherwise, returns the
-    undefined value.
+    Returns true (1) if EXPR is a whole number (e.g. 0, 1, 2, 3, ...).
+    Otherwise, returns the undefined value.
 
     This subroutine should not generate exceptions.
 

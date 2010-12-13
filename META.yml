@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dpchrist-Is
-version:            1.029
+version:            1.030
 abstract:           various type tests
 author:
     - David Paul Christensen <dpchrist@holgerdanske.com>
@@ -11,17 +11,16 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
-    Carp:                 0
-    Data::Dumper:         0
-    Dpchrist::ExtUtils::MakeMaker:  1.015
-    Exporter:             0
-    ExtUtils::MakeMaker:  0
-    Scalar::Util:         0
-    Test::Compile:        0
-    Test::Manifest:       0
-    Test::More:           0
-    Test::Pod:            0
-    Test::Prereq:         0
+    Carp:                 1.08
+    Data::Dumper:         2.12114
+    Exporter:             5.62
+    ExtUtils::MakeMaker:  6.54
+    Scalar::Util:         1.19
+    Test::Compile:        0.1
+    Test::Manifest:       1.22
+    Test::More:           0.72
+    Test::Pod:            1.4
+    Test::Prereq:         1.037
 no_index:
     directory:
         - t

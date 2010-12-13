@@ -1,13 +1,14 @@
-# $Id: is_rxref.t,v 1.1 2010-11-25 00:51:07 dpchrist Exp $
+# $Id: is_regexpref.t,v 1.2 2010-12-08 06:41:02 dpchrist Exp $
 
-use Test::More tests => 9;
+use Dpchrist::Is		qw( is_regexpref );
+
+use Test::More tests		=> 10;
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is		qw( is_rxref );
 
 local $|			= 1;
 $Data::Dumper::Sortkeys		= 1;
@@ -16,7 +17,7 @@ $Data::Dumper::Sortkeys		= 1;
 my $r;
 
 $r = eval {	# sneak around prototype compile check
-    my $rc = \&is_rxref;
+    my $rc = \&is_regexpref;
     &$rc;
 };
 ok(                                                             #     1
@@ -28,7 +29,7 @@ ok(                                                             #     1
 );
 
 $r = eval {
-    is_rxref undef;
+    is_regexpref undef;
 };
 ok(                                                             #     2
     !$@
@@ -39,7 +40,7 @@ ok(                                                             #     2
 );
 
 $r = eval {
-    is_rxref '';
+    is_regexpref '';
 };
 ok(                                                             #     3
     !$@
@@ -50,7 +51,7 @@ ok(                                                             #     3
 );
 
 $r = eval {
-    is_rxref 'foo';
+    is_regexpref 'foo';
 };
 ok(                                                             #     4
     !$@
@@ -61,7 +62,7 @@ ok(                                                             #     4
 );
 
 $r = eval {
-    is_rxref 0;
+    is_regexpref 0;
 };
 ok(                                                             #     5
     !$@
@@ -72,7 +73,7 @@ ok(                                                             #     5
 );
 
 $r = eval {
-    is_rxref 1;
+    is_regexpref 1;
 };
 ok(                                                             #     6
     !$@
@@ -83,7 +84,7 @@ ok(                                                             #     6
 );
 
 $r = eval {
-    is_rxref [];
+    is_regexpref [];
 };
 ok(                                                             #     7
     !$@
@@ -94,7 +95,7 @@ ok(                                                             #     7
 );
 
 $r = eval {
-    is_rxref {};
+    is_regexpref {};
 };
 ok(                                                             #     8
     !$@
@@ -105,9 +106,20 @@ ok(                                                             #     8
 );
 
 $r = eval {
-    is_rxref qr//;
+    is_regexpref sub {};
 };
 ok(                                                             #     9
+    !$@
+    && !defined($r),
+    'call on code reference should return the undefined value'
+) or confess join(' ', __FILE__, __LINE__,
+    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+);
+
+$r = eval {
+    is_regexpref qr//;
+};
+ok(                                                             #    10
     !$@
     && $r,
     'call on reference to regular expression should return true'

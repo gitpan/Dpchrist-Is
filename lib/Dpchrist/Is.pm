@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Is.pm,v 1.29 2010-12-03 05:13:50 dpchrist Exp $
+# $Id: Is.pm,v 1.30 2010-12-08 06:41:02 dpchrist Exp $
 #######################################################################
 # package:
 #----------------------------------------------------------------------
@@ -15,11 +15,12 @@ our @ISA	= qw( Exporter );
 
 our %EXPORT_TAGS = ( 'all' => [ qw(
     is_arrayref
+    is_coderef
     is_filehandle
     is_filename
     is_hashref
     is_nonempty_string
-    is_rxref
+    is_regexpref
     is_string
     is_wholenumber
     isa_class
@@ -33,7 +34,7 @@ our @EXPORT_OK = (
 
 our @EXPORT	= qw();
 
-our $VERSION	= sprintf "%d.%03d", q$Revision: 1.29 $ =~ /(\d+)/g;
+our $VERSION	= sprintf "%d.%03d", q$Revision: 1.30 $ =~ /(\d+)/g;
 
 #######################################################################
 # uses:
@@ -50,18 +51,21 @@ Dpchrist::Is - various type tests
 
 =head1 DESCRIPTION
 
-This documentation describes module revision $Revision: 1.29 $.
+This documentation describes module revision $Revision: 1.30 $.
 
 
 This is alpha test level software
 and may change or disappear at any time.
 
+=cut
+
+#######################################################################
 
 =head2 SUBROUTINES
 
 =cut
 
-#----------------------------------------------------------------------
+#######################################################################
 
 =head3 _isa($$)
 
@@ -76,6 +80,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub _isa($$)
 {
@@ -96,7 +102,7 @@ sub _isa($$)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_arrayref($)
 
@@ -111,6 +117,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_arrayref($)
 {
@@ -128,7 +136,41 @@ sub is_arrayref($)
     return $r;
 }
 
+#======================================================================
+
+=head3 is_coderef($)
+
+    if (is_coderef EXPR) {
+	# do something...
+    }
+
+Returns true (1) if EXPR is an array reference,
+including an empty array.
+Otherwise, returns the undefined value.
+
+This subroutine should not generate exceptions.
+
+=cut
+
 #----------------------------------------------------------------------
+
+sub is_coderef($)
+{
+    my ($s) = @_;
+
+    my $r = eval {
+	defined $s
+	&& ref($s) eq 'CODE'
+	? 1
+	: undef
+    };
+
+    ### ignore $@
+
+    return $r;
+}
+
+#======================================================================
 
 =head3 is_filehandle($)
 
@@ -142,6 +184,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_filehandle($)
 {
@@ -161,7 +205,7 @@ sub is_filehandle($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_filename($)
 
@@ -177,6 +221,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_filename($)
 {
@@ -201,7 +247,7 @@ sub is_filename($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_hashref($)
 
@@ -216,6 +262,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_hashref($)
 {
@@ -233,7 +281,7 @@ sub is_hashref($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_nonempty_string($)
 
@@ -247,6 +295,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_nonempty_string($)
 {
@@ -265,11 +315,11 @@ sub is_nonempty_string($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
-=head3 is_rxref($)
+=head3 is_regexpref($)
 
-    if (is_rxref EXPR) {
+    if (is_regexpref EXPR) {
 	# do something...
     }
 
@@ -281,7 +331,9 @@ This subroutine should not generate exceptions.
 
 =cut
 
-sub is_rxref($)
+#----------------------------------------------------------------------
+
+sub is_regexpref($)
 {
     my ($s) = @_;
 
@@ -297,7 +349,7 @@ sub is_rxref($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_string($)
 
@@ -312,6 +364,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_string($)
 {
@@ -329,7 +383,7 @@ sub is_string($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 is_wholenumber($)
 
@@ -337,12 +391,14 @@ sub is_string($)
 	# do something...
     }
 
-Returns true (1) if EXPR is a whole number.
+Returns true (1) if EXPR is a whole number (e.g. 0, 1, 2, 3, ...).
 Otherwise, returns the undefined value.
 
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub is_wholenumber($)
 {
@@ -363,7 +419,7 @@ sub is_wholenumber($)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 isa_class($$)
 
@@ -378,6 +434,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub isa_class($$)
 {
@@ -398,7 +456,7 @@ sub isa_class($$)
     return $r;
 }
 
-#----------------------------------------------------------------------
+#======================================================================
 
 =head3 isa_object($$)
 
@@ -413,6 +471,8 @@ Otherwise, returns the undefined value.
 This subroutine should not generate exceptions.
 
 =cut
+
+#----------------------------------------------------------------------
 
 sub isa_object($$)
 {

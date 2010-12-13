@@ -5,11 +5,12 @@ Makefile.PL
 lib/Dpchrist/Is.pm
 t/Dpchrist-Is.t
 t/is_arrayref.t
+t/is_coderef.t
 t/is_filehandle.t
 t/is_filename.t
 t/is_hashref.t
 t/is_nonempty_string.t
-t/is_rxref.t
+t/is_regexpref.t
 t/is_string.t
 t/is_wholenumber.t
 t/isa.t
