@@ -1,4 +1,4 @@
-# $Id: is_coderef.t,v 1.2 2010-12-08 06:41:02 dpchrist Exp $
+# $Id: is_coderef.t,v 1.4 2010-12-20 06:05:18 dpchrist Exp $
 
 use Dpchrist::Is		qw( is_coderef );
 

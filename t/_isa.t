@@ -1,15 +1,9 @@
-# $Id: isa.t,v 1.6 2009-11-26 22:11:48 dpchrist Exp $
-
-use Test::More tests => 10;
-
-
+# $Id: _isa.t,v 1.8 2010-12-20 05:42:31 dpchrist Exp $
 
 package Foo;			# base class
 
 use strict;
 use warnings;
-
-
 
 package Bar;			# derived class
 
@@ -18,16 +12,17 @@ use base qw( Foo );
 use strict;
 use warnings;
 
-
-
 package main;
+
+use Test::More tests => 10;
+
+use Dpchrist::Is	qw( _isa );
 
 use strict;
 use warnings;
 
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all _isa );
 use Test::More;
 
 $Data::Dumper::Sortkeys = 1;

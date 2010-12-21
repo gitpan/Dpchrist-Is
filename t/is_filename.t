@@ -1,18 +1,22 @@
-# $Id: is_filename.t,v 1.5 2009-11-26 22:11:48 dpchrist Exp $
-
-use Test::More tests => 7;
+# $Id: is_filename.t,v 1.7 2010-12-20 06:05:18 dpchrist Exp $
 
 use strict;
 use warnings;
 
+use Test::More tests => 7;
+
+use Dpchrist::Is	qw( is_filename );
+
 use Carp;
+use Cwd;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all );
+use File::Basename;
 
 $Data::Dumper::Sortkeys = 1;
 
 $| = 1;
 
+my $cwd = getcwd;
 my $f;
 my $r;
 my $rc = \&is_filename;
@@ -58,36 +62,38 @@ ok(                                                             #     4
 );
 
 $r = eval {
-    is_filename 'no/such/file';
+    $f = __FILE__ . __LINE__;
+    is_filename catfile(__FILE__ . '~tmp', __FILE__ . __LINE__);
 };
 ok(                                                             #     5
     !defined $r,
-    "call on 'no/such/file' should return undefined value"
+    'call on file in non-existent directory ' .
+    'should return undefined value'
 ) or confess join(' ', __FILE__, __LINE__,
-    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+    Data::Dumper->Dump([$r, $@, $cwd, $f], [qw(r @ cwd f)]),
 );
 
 $r = eval {
-    is_filename __FILE__;
+    $f = __FILE__;
+    is_filename $f;
 };
 ok(                                                             #     6
      defined $r
      && $r == 1,
     'call on test script filename should return true'
 ) or confess join(' ', __FILE__, __LINE__,
-    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+    Data::Dumper->Dump([$r, $@, $cwd, $f], [qw(r @ cwd f)]),
 );
 
-$f = join '~', __FILE__, __LINE__, 'tmp';
-
 $r = eval {
+    $f = join '~', basename(__FILE__), __LINE__, 'tmp';
     is_filename $f;
 };
 ok(                                                             #     7
      defined $r
      && $r == 1,
-    "call on '$f' should return true"
+    'call on writeable file name should return true'
 ) or confess join(' ', __FILE__, __LINE__,
-    Data::Dumper->Dump([$r, $@], [qw(r @)]),
+    Data::Dumper->Dump([$r, $@, $cwd, $f], [qw(r @ cwd f)]),
 );
 

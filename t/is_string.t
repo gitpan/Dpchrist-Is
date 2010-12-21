@@ -1,18 +1,17 @@
-# $Id: is_string.t,v 1.3 2010-11-25 01:25:06 dpchrist Exp $
-
-use Test::More tests => 8;
-
+# $Id: is_string.t,v 1.5 2010-12-20 06:05:18 dpchrist Exp $
 
 use strict;
 use warnings;
 
+use Test::More			tests => 8;
+
+use Dpchrist::Is		qw( is_string );
+
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( is_string );
 
-$Data::Dumper::Sortkeys = 1;
-
-$| = 1;
+$|				= 1;
+$Data::Dumper::Sortkeys		= 1;
 
 my $r;
 

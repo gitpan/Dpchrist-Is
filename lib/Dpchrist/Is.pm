@@ -1,5 +1,5 @@
 #######################################################################
-# $Id: Is.pm,v 1.31 2010-12-15 00:39:26 dpchrist Exp $
+# $Id: Is.pm,v 1.32 2010-12-21 00:57:14 dpchrist Exp $
 #######################################################################
 # package:
 #----------------------------------------------------------------------
@@ -34,7 +34,7 @@ our @EXPORT_OK = (
 
 our @EXPORT	= qw();
 
-our $VERSION	= sprintf "%d.%03d", q$Revision: 1.31 $ =~ /(\d+)/g;
+our $VERSION	= sprintf "%d.%03d", q$Revision: 1.32 $ =~ /(\d+)/g;
 
 #######################################################################
 # uses:
@@ -51,7 +51,7 @@ Dpchrist::Is - various type tests
 
 =head1 DESCRIPTION
 
-This documentation describes module revision $Revision: 1.31 $.
+This documentation describes module revision $Revision: 1.32 $.
 
 
 This is alpha test level software

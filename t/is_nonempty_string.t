@@ -1,4 +1,4 @@
-# $Id: is_nonempty_string.t,v 1.1 2010-11-25 01:25:06 dpchrist Exp $
+# $Id: is_nonempty_string.t,v 1.3 2010-12-20 06:05:18 dpchrist Exp $
 
 use Test::More tests => 9;
 

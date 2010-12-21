@@ -1,18 +1,17 @@
-# $Id: is_wholenumber.t,v 1.3 2009-11-26 22:11:48 dpchrist Exp $
-
-use Test::More tests => 10;
-
+# $Id: is_wholenumber.t,v 1.5 2010-12-20 06:05:18 dpchrist Exp $
 
 use strict;
 use warnings;
 
+use Test::More tests => 10;
+
+use Dpchrist::Is		qw( is_wholenumber );
+
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all );
 
-$Data::Dumper::Sortkeys = 1;
-
-$| = 1;
+$|				= 1;
+$Data::Dumper::Sortkeys		= 1;
 
 my $f;
 my $r;

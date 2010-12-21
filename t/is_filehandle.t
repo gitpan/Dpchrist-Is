@@ -1,17 +1,18 @@
-# $Id: is_filehandle.t,v 1.3 2009-11-26 22:11:48 dpchrist Exp $
-
-use Test::More tests => 14;
+# $Id: is_filehandle.t,v 1.5 2010-12-20 06:05:18 dpchrist Exp $
 
 use strict;
 use warnings;
 
+use Test::More			tests => 14;
+
+use Dpchrist::Is		qw( is_filehandle );
+
 use Carp;
 use Data::Dumper;
-use Dpchrist::Is	qw( :all );
+use File::Basename;
 
-$Data::Dumper::Sortkeys = 1;
-
-$| = 1;
+$|				= 1;
+$Data::Dumper::Sortkeys		= 1;
 
 my $f;
 my $fh;
@@ -24,7 +25,7 @@ $r = eval {
 ok(                                                             #     1
     !defined $r,
     'call without arguments should return the undefined value'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -34,7 +35,7 @@ $r = eval {
 ok(                                                             #     2
     !defined $r,
     'call on undefined value should return the undefined value'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -44,7 +45,7 @@ $r = eval {
 ok(                                                             #     3
     !defined $r,
     'call on empty string should return the undefined value'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -54,7 +55,7 @@ $r = eval {
 ok(                                                             #     4
     !defined $r,
     'call on zero return the undefined value'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -64,7 +65,7 @@ $r = eval {
 ok(                                                             #     5
     !defined $r,
     'call on reference should return the undefined value'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -74,7 +75,7 @@ $r = eval {
 ok(                                                             #     6
     !defined $r,
     "call on file name should return undefined value"
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -85,7 +86,7 @@ ok(                                                             #     7
      defined $r
      && $r == 1,
     'call on *STDIN should return true'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -96,7 +97,7 @@ ok(                                                             #     8
      defined $r
      && $r == 1,
     'call on *STDOUT should return true'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -107,11 +108,11 @@ ok(                                                             #     9
      defined $r
      && $r == 1,
     'call on *STDERR should return true'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
-$f = join '~', __FILE__, __LINE__, 'tmp';
+$f = join '~', basename(__FILE__), __LINE__, 'tmp';
 
 open (F, "> $f") or die $!;
 
@@ -122,7 +123,7 @@ ok(                                                             #    10
      defined $r
      && $r == 1,
     "call on *F should return true"
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -133,7 +134,7 @@ ok(                                                             #    11
      defined $r
      && $r == 1,
     "call on string '*F' should return true"
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -146,7 +147,7 @@ ok(                                                             #    12
      defined $r
      && $r == 1,
     "call on closed filehandle should return true"
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -159,7 +160,7 @@ ok(                                                             #    13
      defined $r
      && $r == 1,
     "call on open file handle variable should return true"
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 
@@ -172,7 +173,7 @@ ok(                                                             #    14
     defined $r
     && $r == 1,
     'call on closed file handle variable should return true'
-) or confess join(" ", __FILE__, __LINE__,
+) or confess join(" ", basename(__FILE__), __LINE__,
     Data::Dumper->Dump([$r, $@], [qw(r @)]),
 );
 

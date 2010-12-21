@@ -9,6 +9,6 @@ is_nonempty_string.t
 is_regexpref.t
 is_string.t
 is_wholenumber.t
-isa.t
+_isa.t
 test-pod-all_pod_files_ok.t
 test-prereq-prereq_ok.t

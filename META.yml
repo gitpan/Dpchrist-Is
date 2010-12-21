@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Dpchrist-Is
-version:            1.031
+version:            1.032
 abstract:           various type tests
 author:
     - David Paul Christensen <dpchrist@holgerdanske.com>
@@ -15,6 +15,7 @@ requires:
     Data::Dumper:         2.12114
     Exporter:             5.62
     ExtUtils::MakeMaker:  6.54
+    File::Basename:       2.76
     Scalar::Util:         1.19
     Test::Compile:        0.1
     Test::Manifest:       1.22

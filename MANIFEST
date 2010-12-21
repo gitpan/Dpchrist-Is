@@ -3,6 +3,7 @@ MANIFEST
 README
 Makefile.PL
 lib/Dpchrist/Is.pm
+t/_isa.t
 t/Dpchrist-Is.t
 t/is_arrayref.t
 t/is_coderef.t
@@ -13,7 +14,6 @@ t/is_nonempty_string.t
 t/is_regexpref.t
 t/is_string.t
 t/is_wholenumber.t
-t/isa.t
 t/test-compile-all_pm_files_ok.t
 t/test-pod-all_pod_files_ok.t
 t/test-prereq-prereq_ok.t
